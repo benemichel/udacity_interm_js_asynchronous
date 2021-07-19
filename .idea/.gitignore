@@ -1,0 +1,8 @@
+# Default ignored files
+/shelf/
+/workspace.xml
+# Datasource local storage ignored files
+/../../../../../../../../../../../:\Users\bened\OneDrive\Projekte\coding\projects\udacity_intermediate_js\project_async_racer\nd032-c3-asynchronous-programming-with-javascript-project-starter\.idea/dataSources/
+/dataSources.local.xml
+# Editor-based HTTP Client requests
+/httpRequests/
