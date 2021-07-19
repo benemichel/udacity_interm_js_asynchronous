@@ -1,10 +1,11 @@
 // PROVIDED CODE BELOW (LINES 1 - 80) DO NOT REMOVE
 
 // The store will hold all information needed globally
-var store = {
+let store = {
     track_id: undefined,
     player_id: undefined,
     race_id: undefined,
+    track: undefined,
 }
 
 const updateStore = (newState) => {
@@ -82,48 +83,65 @@ async function delay(ms) {
 
 // This async function controls the flow of the race, add the logic and error handling
 async function handleCreateRace() {
-    // render starting UI
-    renderAt('#race', renderRaceStartView())
 
     // TODO - Get player_id and track_id from the store
-    const {player_id } = store
-    const {track_id } = store
+    const {player_id} = store
+    const {track_id} = store
 
+    // render starting UI
+    renderAt('#race', renderRaceStartView(track_id))
 
     // const race = TODO - invoke the API call to create the race, then save the result
-    const race = createRace(player_id, track_id)
+    const race = await createRace(player_id, track_id)
+    const trackSorted = race.Track.segments.sort(function compareNumbers(a, b) {
+        return a - b;
+    })
+    const trackSortedUnique = [...new Set(trackSorted)]
+    updateStore({track: trackSortedUnique})
+
+    console.log("handleCreateRace, race:", race)
 
     // TODO - update the store with the race id
-    updateStore({race_id: race.id})
+    updateStore({race_id: race.ID})
 
     // The race has been created, now start the countdown
     // TODO - call the async function runCountdown
     await runCountdown()
 
     // TODO - call the async function startRace
-    await startRace(race.id)
+    await startRace(race.ID)
 
     // TODO - call the async function runRace
-    await runRace(race.id)
+    try {
+        await runRace(race.ID)
+    } catch (err) {
+        console.error(err)
+    }
+
 }
 
 function runRace(raceID) {
-    return new Promise(resolve => {
+    return new Promise((resolve, reject) => {
         // TODO - use Javascript's built in setInterval method to get race info every 500ms
+        const raceInterval = setInterval(() => {
+            // TODO - if the race info status property is "in-progress", update the leaderboard by calling:
 
-        /*
-            TODO - if the race info status property is "in-progress", update the leaderboard by calling:
-
-            renderAt('#leaderBoard', raceProgress(res.positions))
-        */
-
-        /*
-            TODO - if the race info status property is "finished", run the following:
-
-            clearInterval(raceInterval) // to stop the interval from repeating
-            renderAt('#race', resultsView(res.positions)) // to render the results view
-            reslove(res) // resolve the promise
-        */
+            getRace(raceID).then(res => {
+                if (res.status === 'in-progress') {
+                    renderAt('#leaderBoard', raceProgress(res.positions))
+                    const segmentsWithRacers = getTrackPositions(res.positions)
+                    const progresses = getProgresses(res.positions)
+                    renderAt('#progress', renderSegmentsWithRacers(segmentsWithRacers, progresses))
+                } else if (res.status === 'finished') {
+                    clearInterval(raceInterval) // to stop the interval from repeating
+                    renderAt('#race', resultsView(res.positions)) // to render the results view
+                    resolve(res) // resolve the promise
+                }
+            }).catch(err => {
+                console.error(err)
+                reject()
+            })
+        }, 500)
     })
     // remember to add error handling for the Promise
 }
@@ -167,7 +185,6 @@ function handleSelectPodRacer(target) {
     target.classList.add('selected')
 
     // TODO - save the selected racer to the store
-    // ??? ???? or racer_id??
     updateStore({player_id: selectedRacerId})
 }
 
@@ -190,6 +207,37 @@ function handleSelectTrack(target) {
 function handleAccelerate() {
     console.log("accelerate button clicked")
     // TODO - Invoke the API call to accelerate
+    const {race_id} = store
+    accelerate(race_id)
+}
+
+function getProgresses(positions) {
+    const {track} = store
+
+    const progresses = positions.map(position => {
+        return {
+            progress: (parseInt(position.segment) / track.length).toFixed(2) * 100,
+            racer: position.driver_name,
+            id: position.id
+        }
+    })
+
+    console.log("progresses,", progresses)
+    return progresses
+}
+
+function getTrackPositions(positions) {
+    // maps racer positions to track segments
+    const {track} = store
+
+    const segmentsWithRacers = track.map((segment) => {
+        return {
+            segment: segment,
+            racers: positions.filter(position => position.segment == segment)
+        }
+    })
+    console.log("segmentsWithRacers:", segmentsWithRacers)
+    return segmentsWithRacers
 }
 
 // HTML VIEWS ------------------------------------------------
@@ -197,67 +245,40 @@ function handleAccelerate() {
 
 function renderRacerCars(racers) {
     if (!racers.length) {
-        return `
-			<h4>Loading Racers...</4>
-		`
+        return ` <h4>Loading Racers...</4> `
     }
-
     const results = racers.map(renderRacerCard).join('')
-
-    return `
-		<ul id="racers">
-			${results}
-		</ul>
-	`
+    return ` <ul id="racers"> ${results} </ul>`
 }
 
 function renderRacerCard(racer) {
     const {id, driver_name, top_speed, acceleration, handling} = racer
-
-    return `
-		<li class="card podracer" id="${id}">
+    return ` <li class="card podracer" id="${id}">
 			<h3>${driver_name}</h3>
 			<p>${top_speed}</p>
 			<p>${acceleration}</p>
 			<p>${handling}</p>
-		</li>
-	`
+		    </li> `
 }
 
 function renderTrackCards(tracks) {
     if (!tracks.length) {
-        return `
-			<h4>Loading Tracks...</4>
-		`
+        return ` <h4>Loading Tracks...</4> `
     }
-
     const results = tracks.map(renderTrackCard).join('')
-
-    return `
-		<ul id="tracks">
-			${results}
-		</ul>
-	`
+    return ` <ul id="tracks">${results} </ul>`
 }
 
 function renderTrackCard(track) {
     const {id, name} = track
-
-    return `
-		<li id="${id}" class="card track">
-			<h3>${name}</h3>
-		</li>
-	`
+    return ` <li id="${id}" class="card track"> <h3>${name}</h3> </li>`
 }
 
 function renderCountdown(count) {
-    return `
-		<h2>Race Starts In...</h2>
-		<p id="big-numbers">${count}</p>
-	`
+    return ` <h2>Race Starts In...</h2> <p id="big-numbers">${count}</p> `
 }
 
-function renderRaceStartView(track, racers) {
+function renderRaceStartView(track) {
     return `
 		<header>
 			<h1>Race: ${track.name}</h1>
@@ -279,7 +300,6 @@ function renderRaceStartView(track, racers) {
 
 function resultsView(positions) {
     positions.sort((a, b) => (a.final_position > b.final_position) ? 1 : -1)
-
     return `
 		<header>
 			<h1>Race Results</h1>
@@ -292,43 +312,44 @@ function resultsView(positions) {
 }
 
 function raceProgress(positions) {
-    let userPlayer = positions.find(e => e.id === store.player_id)
+    console.log("matches?")
+    console.log("positions,", positions)
+    console.log("me id,", store.player_id)
+    let userPlayer = positions.find(e => e.id == store.player_id)
     userPlayer.driver_name += " (you)"
 
     positions = positions.sort((a, b) => (a.segment > b.segment) ? -1 : 1)
     let count = 1
 
     const results = positions.map(p => {
-        return `
-			<tr>
-				<td>
-					<h3>${count++} - ${p.driver_name}</h3>
-				</td>
-			</tr>
-		`
+        return ` <tr> <td> <h3>${count++} - ${p.driver_name}</h3> </td> </tr> `
     })
-
-    return `
-		<main>
-			<h3>Leaderboard</h3>
-			<section id="leaderBoard">
-				${results}
-			</section>
-		</main>
-	`
+    return ` <main> <h3>Leaderboard</h3> <section id="leaderBoard"> ${results} </section> <section id="progress">
+        </section> </main> `
 }
+
 
 function renderAt(element, html) {
     const node = document.querySelector(element)
-
     node.innerHTML = html
 }
 
 // ^ Provided code ^ do not remove
 
+function renderSegmentsWithRacers(segmentsWithRacers, progresses) {
+    const lis = segmentsWithRacers.map((segment, index) => {
+        const driverNames = segment.racers.length > 0 ? segment.racers.map(racer => racer.driver_name).join(", ") : ""
+        return `<span> ${driverNames.length > 0 ? driverNames : '...'} </span>`
+    })
+    const progressesText = progresses.map(progress => {
+        return `${progress.racer}: ${progress.progress}`
+    })
+
+    return `<p> ${lis} </p> <p>${progressesText}</p>`
+}
+
 
 // API CALLS ------------------------------------------------
-
 const SERVER = 'http://localhost:8000'
 
 function defaultFetchOpts() {
@@ -358,6 +379,9 @@ function getRacers() {
 }
 
 function createRace(player_id, track_id) {
+    // create new race with selected racer and track id combination
+    // returns {ID: 8, Track: {id: 1, name: "Track 1",…}, PlayerID: 4,…}
+    // !!! bug, stored race is available via races/id - 1, in this case /7
     player_id = parseInt(player_id)
     track_id = parseInt(track_id)
     const body = {player_id, track_id}
@@ -373,6 +397,7 @@ function createRace(player_id, track_id) {
 }
 
 function getRace(id) {
+    id = id - 1 // bug in API!
     const race = fetch(`${SERVER}/api/races/${id}`)
         .then(res => res.json())
         .catch(err => console.log('Problem with fetching cars::', err))
@@ -380,6 +405,7 @@ function getRace(id) {
 }
 
 function startRace(id) {
+    id = id - 1 // bug in API!
     return fetch(`${SERVER}/api/races/${id}/start`, {
         method: 'POST',
         ...defaultFetchOpts(),
@@ -389,6 +415,7 @@ function startRace(id) {
 }
 
 function accelerate(id) {
+    id = id - 1 // bug in API!
     return fetch(`${SERVER}/api/races/${id}/accelerate`, {
         method: 'POST',
         ...defaultFetchOpts(),
