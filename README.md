@@ -10,7 +10,7 @@ Start server: Run `npm run watch` or `npm run start`
 ## Notes
 Starter code was provided by Udacity. Provided code included bugs in API (indexing of objects, could not be changed due to binary file API) and inconsistent usage of css selectors and attributes. Project focus was on async JS.
 
-Other scopes like styling, accessibility, modularization, application of frameworks (BEM, SMACKS) etc. were only applied  in a fundamental way.
+Other important scopes like styling, accessibility, performance, modularization, application of frameworks (BEM, SMACKS) etc. were only applied  in a fundamental way.
 
 
 ## Project Introduction
