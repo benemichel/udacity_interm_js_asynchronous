@@ -49,12 +49,12 @@ form li {
 }
 
 .card_track {
-    width: 300px;
-    height: 150px;
+    width: 260px;
+    height: 120px;
 }
 .card_racer {
     min-height: 200px;
-    min-width: 300px;
+    min-width: 260px;
     background-position: center;
 }
 
@@ -86,6 +86,10 @@ form li:hover  .card__overlay {
     left: 0;
     pointer-events: none;
     font-size: 8px;
+}
+
+.card__overlay * {
+    color: white;
 }
 
 

@@ -271,7 +271,8 @@ function renderRaceStartView(track) {
                 <h2>Directions</h2>
                 <p>Click the button as fast as you can to make your racer go faster!</p>
             </section>
-            <section id="progress_sections">
+            <section id="raceUpdates">
+            <div>
                 <section id="accelerate">
                     <button id="gas-peddle">Click Me!</button>
                 </section>
@@ -279,14 +280,19 @@ function renderRaceStartView(track) {
                 <section id="leaderBoard">
                     ${renderCountdown(3)}
                 </section>
+            
+            </div>
                 
+            <div>
                 <section id="raceProgress">
                 </section>
+            </div>
+                
             </section>
 	
 		</main>
 		<footer>
-        <p>Designed and created by Benedikt Michel. Based on starter code provided by Udacity</p>
+        <p>Designed and created by Benedikt Michel. Based on starter code provided by Udacity.</p>
     </footer>
 	`
 }
@@ -297,17 +303,17 @@ function resultsView(positions) {
 		<header>
 			<h1>Race Results</h1>
 		</header>
-		<main>
+		<main id="results">
 			${raceProgress(positions)}
-			<a href="/race">Start a new race</a>
+			<a class="button" href="/race">Start a new Race</a>
 		</main>
+		<footer>
+            <p>Designed and created by Benedikt Michel. Based on starter code provided by Udacity.</p>
+         </footer>
 	`
 }
 
 function raceProgress(positions) {
-    console.log("matches?")
-    console.log("positions,", positions)
-    console.log("me id,", store.player_id)
     let userPlayer = positions.find(e => e.id == store.player_id)
     userPlayer.driver_name += " (you)"
 
@@ -315,11 +321,10 @@ function raceProgress(positions) {
     let count = 1
 
     const results = positions.map(p => {
-        return `  <h3>${count++} - ${p.driver_name}</h3> `
+        return `  <p>${count++} - ${p.driver_name}</p> `
     }).join(" ")
     return `  <h3>Leaderboard</h3> <section id="leaderBoard__positions"> ${results} </section>  `
 }
-
 
 function renderAt(element, html) {
     const node = document.querySelector(element)

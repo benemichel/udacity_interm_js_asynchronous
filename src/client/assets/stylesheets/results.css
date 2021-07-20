@@ -1,19 +1,26 @@
 /* RESULTS PAGE SPECIFIC STYLES */
-
-/* -------------------  MOBILE  --------------------- */
-
-
-/* -------------------  TABLET  --------------------- */
-@media (min-width: 768px) {
-
+#results {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start !important;
 }
 
-/* -------------------  DESKTOP  -------------------- */
-
-@media (min-width: 1224px) {
+#results .button {
+    width: 50%;
+    height: 15%;
 }
 
-/* -------------------  LARGE SCREENS  -------------- */
+@media (min-width: 600px) {
+    #results .button {
+        width: 50%;
+        height: 15%;
+    }
+}
 
-@media (min-width: 1824px) {
+@media (min-width: 960px) {
+    #results .button {
+        width: 30%;
+        height: 15%;
+    }
 }

@@ -22,7 +22,7 @@ header {
 #raceProgress {
     display: flex;
     justify-content: center;
-    padding: 20px;
+    padding: 25px;
 }
 
 #leaderBoard {
@@ -32,12 +32,16 @@ header {
     text-align: center;
 }
 
+#leaderBoard p {
+    color: white;
+}
+
 #leaderBoard__positions {
     display: flex;
     flex-direction: column;
     align-items: start;
 }
-#progress_sections {
+#raceUpdates {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -67,7 +71,7 @@ section#accelerate button {
 
 
 .progressContainer {
-    width: 65vw;
+    width: 60vw;
     height: 0.1px;
     position: relative;
     border: 3px solid lightgrey;
@@ -91,18 +95,18 @@ section#accelerate button {
     }
 
     section#accelerate button {
-        height: 150px;
-        width: 150px;
+        height: 130px;
+        width: 130px;
         font-size: 2rem;
     }
 
 }
 
 @media(min-width: 600px) {
-    #progress_sections {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+    #raceUpdates {
+        /*display: flex;*/
+        /*flex-direction: row;*/
+        /*justify-content: space-between;*/
     }
 }
 @media(min-width: 960px) {
@@ -111,13 +115,13 @@ section#accelerate button {
     }
 
     section#accelerate button {
-        height: 200px;
-        width: 200px;
+        height: 160px;
+        width: 160px;
     }
 
-    #progress_sections {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
+    #raceUpdates {
+        /*display: flex;*/
+        /*flex-direction: row;*/
+        /*justify-content: space-between;*/
     }
 }

@@ -1,9 +1,5 @@
 html {
-    box-sizing: border-box;
     font-size: 16px;
-    width: 100vw;
-    margin:0;
-    padding:0;
 }
 
 body {
@@ -44,6 +40,12 @@ footer {
 }
 
 @media(min-width: 960px) {
+    header {
+        /*height: 45vh;*/
+    }
+}
+
+@media(min-width: 1024px) {
     header {
         height: 45vh;
     }
