@@ -29,6 +29,17 @@ section#accelerate button {
     font-size: 70px;
 }
 
+#progress {
+    width: 100%;
+    background-color: grey;
+}
+
+.progressBar {
+    width: 1%;
+    height: 30px;
+    background-color: green;
+}
+
 /* -------------------  TABLET  --------------------- */
 @media (min-width: 768px) {
 

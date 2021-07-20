@@ -129,9 +129,8 @@ function runRace(raceID) {
             getRace(raceID).then(res => {
                 if (res.status === 'in-progress') {
                     renderAt('#leaderBoard', raceProgress(res.positions))
-                    const segmentsWithRacers = getTrackPositions(res.positions)
                     const progresses = getProgresses(res.positions)
-                    renderAt('#progress', renderSegmentsWithRacers(segmentsWithRacers, progresses))
+                    renderAt('#progress', renderProgresses(progresses))
                 } else if (res.status === 'finished') {
                     clearInterval(raceInterval) // to stop the interval from repeating
                     renderAt('#race', resultsView(res.positions)) // to render the results view
@@ -212,32 +211,14 @@ function handleAccelerate() {
 }
 
 function getProgresses(positions) {
-    const {track} = store
-
     const progresses = positions.map(position => {
         return {
-            progress: (parseInt(position.segment) / track.length).toFixed(2) * 100,
+            progress: Math.round((parseInt(position.segment) / 201).toFixed(2) * 100),
             racer: position.driver_name,
             id: position.id
         }
     })
-
-    console.log("progresses,", progresses)
     return progresses
-}
-
-function getTrackPositions(positions) {
-    // maps racer positions to track segments
-    const {track} = store
-
-    const segmentsWithRacers = track.map((segment) => {
-        return {
-            segment: segment,
-            racers: positions.filter(position => position.segment == segment)
-        }
-    })
-    console.log("segmentsWithRacers:", segmentsWithRacers)
-    return segmentsWithRacers
 }
 
 // HTML VIEWS ------------------------------------------------
@@ -265,13 +246,16 @@ function renderTrackCards(tracks) {
     if (!tracks.length) {
         return ` <h4>Loading Tracks...</4> `
     }
-    const results = tracks.map(renderTrackCard).join('')
+    const results = tracks.map((track, index) => renderTrackCard(track, index)).join('')
     return ` <ul id="tracks">${results} </ul>`
 }
 
-function renderTrackCard(track) {
+function renderTrackCard(track, i) {
     const {id, name} = track
-    return ` <li id="${id}" class="card track"> <h3>${name}</h3> </li>`
+    return ` <li id="${id}" class="card_track" style="background-image: url('../assets/images/${i + 1}.png');background-size: cover"
+                >
+                <div class="card_track__overlay"> <h3>${name}</h3></div>
+  </li>`
 }
 
 function renderCountdown(count) {
@@ -336,16 +320,14 @@ function renderAt(element, html) {
 
 // ^ Provided code ^ do not remove
 
-function renderSegmentsWithRacers(segmentsWithRacers, progresses) {
-    const lis = segmentsWithRacers.map((segment, index) => {
-        const driverNames = segment.racers.length > 0 ? segment.racers.map(racer => racer.driver_name).join(", ") : ""
-        return `<span> ${driverNames.length > 0 ? driverNames : '...'} </span>`
-    })
-    const progressesText = progresses.map(progress => {
-        return `${progress.racer}: ${progress.progress}`
-    })
+function renderProgresses(progresses) {
 
-    return `<p> ${lis} </p> <p>${progressesText}</p>`
+    const progressBars = progresses.map(progress => {
+        return `<span>${progress.racer}</span></p><div class='progressBar' style='width: ${progress.progress}%'></div>`
+    }).join(" ")
+
+    console.log(`<div id="progress"> ${progressBars} </div>`)
+    return ` <div id="progress"> ${progressBars} </div> `
 }
 
 
