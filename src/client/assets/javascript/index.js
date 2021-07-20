@@ -81,9 +81,9 @@ async function delay(ms) {
 async function handleCreateRace() {
     const {player_id} = store
     const {track_id} = store
-    const race = await createRace(player_id, track_id)
 
     try {
+        const race = await createRace(player_id, track_id)
         // render starting UI
         renderAt('#race', renderRaceStartView(race.Track))
         updateStore({race_id: race.ID})
@@ -91,12 +91,6 @@ async function handleCreateRace() {
         // The race has been created, now start the countdown
         await runCountdown()
         await startRace(race.ID)
-    }
-    catch (err) {
-        console.error(err)
-    }
-
-    try {
         await runRace(race.ID)
     } catch (err) {
         console.error(err)
@@ -332,10 +326,10 @@ const SERVER = 'http://localhost:8000'
 
 function defaultFetchOpts() {
     return {
-        mode: 'cors',
+        mode: "cors",
         headers: {
-            'Content-Type': 'application/json',
-            'Access-Control-Allow-Origin': SERVER,
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": SERVER,
         },
     }
 }
@@ -363,9 +357,9 @@ function createRace(player_id, track_id) {
     const body = {player_id, track_id}
 
     return fetch(`${SERVER}/api/races`, {
-        method: 'POST',
+        method: "POST",
         ...defaultFetchOpts(),
-        dataType: 'jsonp',
+        dataType: "jsonp",
         body: JSON.stringify(body)
     })
         .then(res => res.json())
@@ -376,26 +370,26 @@ function getRace(id) {
     id = id - 1 // bug in API!
     const race = fetch(`${SERVER}/api/races/${id}`)
         .then(res => res.json())
-        .catch(err => console.error('Problem with fetching cars::', err))
+        .catch(err => console.error('Problem with get race request::', err))
     return race
 }
 
 function startRace(id) {
     id = id - 1 // bug in API!
     return fetch(`${SERVER}/api/races/${id}/start`, {
-        method: 'POST',
+        method: "POST",
         ...defaultFetchOpts(),
     })
-        .then(res => res.json())
-        .catch(err => console.error("Problem with getRace request::", err))
+        .then(() => "")
+        .catch(err => console.error("Problem with startRace request::", err))
 }
 
 function accelerate(id) {
     id = id - 1 // bug in API!
     return fetch(`${SERVER}/api/races/${id}/accelerate`, {
-        method: 'POST',
+        method: "POST",
         ...defaultFetchOpts(),
     })
-        .then(res => res.json())
+        .then( () => "")
         .catch(err => console.error("Problem with accelerate request::", err))
 }
