@@ -1,3 +1,4 @@
+@import "variables.css";
 @import "create.css";
 @import "race.css";
 @import "home.css";
@@ -5,3 +6,5 @@
 @import "results.css";
 @import "layout.css";
 @import "base.css";
+
+

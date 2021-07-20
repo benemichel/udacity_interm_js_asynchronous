@@ -3,8 +3,8 @@
 
 }
 #submit-create-race {
-    max-width: 50%;
-    max-height: 5%;
+    width: 85%;
+    height: 15%;
 }
 
 form {
@@ -24,36 +24,47 @@ form ul {
 #racers {
     display: flex;
     flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
 }
+
+#tracks {
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: center;
+}
+
 form li {
     border-radius: 2px;
     -webkit-box-shadow: 1px 1px 1px 0px rgba(237,230,237,0.8);
     -moz-box-shadow: 1px 1px 1px 0px rgba(237,230,237,0.8);
     box-shadow: 1px 1px 1px 0px rgba(237,230,237,0.8);
-
     border: 1px solid #fbf5f5;
     cursor: pointer;
     transition: all .6s;
     margin-right: 5px;
+    margin-bottom: 5px;
     position: relative;
 }
 
-form .card_track {
-    width: 50px;
-    height: 50px;
+.card_track {
+    width: 300px;
+    height: 150px;
 }
-form .card_racer {
-    min-height: 60px;
-    min-width: 60px;
+.card_racer {
+    min-height: 200px;
+    min-width: 300px;
+    background-position: center;
 }
 
 form li:hover {
     box-shadow: none;
-    border: 4px solid rgb(109, 233, 23);
+    border: 1px solid rgb(109, 233, 23);
 }
 
 form li.selected {
-    border: 4px solid rgb(109, 233, 23);
+    border: 3px solid rgb(109, 233, 23);
 }
 
 form li h3 {
@@ -74,35 +85,49 @@ form li:hover  .card__overlay {
     top: 0;
     left: 0;
     pointer-events: none;
+    font-size: 8px;
 }
 
 
 @media (min-width: 600px) {
-    form li {
-        max-width: 300px;
-        min-width: 110px;
-        min-height: 80px;
-        border: 4px solid #fbf5f5;
+    #racers {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: center;
     }
+
+    #tracks {
+        display: flex;
+        flex-wrap: wrap;
+        flex-direction: row;
+        justify-content: center;
+    }
+
+    #submit-create-race {
+        width: 50%;
+        height: 15%;
+    }
+
+    .card_track {
+        margin-right: 15px;
+        margin-bottom: 15px;
+    }
+
+    .card_racer {
+        margin-right: 15px;
+        margin-bottom: 15px;
+    }
+
+
 }
-
-
 
 @media (min-width: 960px) {
-    form li {
-        max-width: 600px;
-        min-width: 200px;
-        min-height: 120px;
-        border: 4px solid #fbf5f5;
+    #submit-create-race {
+        width: 30%;
+        height: 15%;
     }
+
 }
 
-@media (min-width: 1264px) {
-    form li {
-        max-width: 600px;
-        min-width: 200px;
-        min-height: 120px;
-        border: 4px solid #fbf5f5;
-    }
-}
 

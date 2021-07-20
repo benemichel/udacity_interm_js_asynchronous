@@ -1,19 +1,10 @@
 /* HOME PAGE SPECIFIC STYLES */
 
-/* -------------------  MOBILE  --------------------- */
-
-
-/* -------------------  TABLET  --------------------- */
-@media (min-width: 768px) {
-
+#home {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
 }
 
-/* -------------------  DESKTOP  -------------------- */
 
-@media (min-width: 1224px) {
-}
-
-/* -------------------  LARGE SCREENS  -------------- */
-
-@media (min-width: 1824px) {
-}

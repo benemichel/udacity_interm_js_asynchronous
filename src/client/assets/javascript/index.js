@@ -82,35 +82,19 @@ async function delay(ms) {
 
 // This async function controls the flow of the race, add the logic and error handling
 async function handleCreateRace() {
-
-    // TODO - Get player_id and track_id from the store
     const {player_id} = store
     const {track_id} = store
+    const race = await createRace(player_id, track_id)
 
     // render starting UI
-    renderAt('#race', renderRaceStartView(track_id))
-
-    // const race = TODO - invoke the API call to create the race, then save the result
-    const race = await createRace(player_id, track_id)
-    const trackSorted = race.Track.segments.sort(function compareNumbers(a, b) {
-        return a - b;
-    })
-    const trackSortedUnique = [...new Set(trackSorted)]
-    updateStore({track: trackSortedUnique})
-
+    renderAt('#race', renderRaceStartView(race.Track))
     console.log("handleCreateRace, race:", race)
-
-    // TODO - update the store with the race id
     updateStore({race_id: race.ID})
 
     // The race has been created, now start the countdown
-    // TODO - call the async function runCountdown
     await runCountdown()
-
-    // TODO - call the async function startRace
     await startRace(race.ID)
 
-    // TODO - call the async function runRace
     try {
         await runRace(race.ID)
     } catch (err) {
@@ -129,7 +113,7 @@ function runRace(raceID) {
                 if (res.status === 'in-progress') {
                     renderAt('#leaderBoard', raceProgress(res.positions))
                     const progresses = getProgresses(res.positions)
-                    renderAt('#progress', renderProgresses(progresses))
+                    renderAt('#raceProgress', renderProgresses(progresses))
                 } else if (res.status === 'finished') {
                     clearInterval(raceInterval) // to stop the interval from repeating
                     renderAt('#race', resultsView(res.positions)) // to render the results view
@@ -215,7 +199,7 @@ function getProgresses(positions) {
     const progresses = positions.map(position => {
         return {
             progress: Math.round((parseInt(position.segment) / 201).toFixed(2) * 100),
-            racer: position.driver_name,
+            racer: position.driver_name.replace(" (you)", ""),
             id: position.id
         }
     })
@@ -224,11 +208,10 @@ function getProgresses(positions) {
 
 function toggleStartRaceButton() {
     const submitButton = document.getElementById("submit-create-race")
-    const { player_id, track_id } = store
+    const {player_id, track_id} = store
     if (player_id && track_id) {
         submitButton.disabled = false;
-    }
-    else {
+    } else {
         submitButton.disabled = true;
     }
 }
@@ -280,20 +263,31 @@ function renderCountdown(count) {
 function renderRaceStartView(track) {
     return `
 		<header>
-			<h1>Race: ${track.name}</h1>
+			<h1>Race:${track.name}</h1>
 		</header>
-		<main id="two-columns">
-			<section id="leaderBoard">
-				${renderCountdown(3)}
-			</section>
-
-			<section id="accelerate">
-				<h2>Directions</h2>
-				<p>Click the button as fast as you can to make your racer go faster!</p>
-				<button id="gas-peddle">Click Me To Win!</button>
-			</section>
+		
+		<main id="progressMain">
+            <section id="instructions">
+                <h2>Directions</h2>
+                <p>Click the button as fast as you can to make your racer go faster!</p>
+            </section>
+            <section id="progress_sections">
+                <section id="accelerate">
+                    <button id="gas-peddle">Click Me!</button>
+                </section>
+                
+                <section id="leaderBoard">
+                    ${renderCountdown(3)}
+                </section>
+                
+                <section id="raceProgress">
+                </section>
+            </section>
+	
 		</main>
-		<footer></footer>
+		<footer>
+        <p>Designed and created by Benedikt Michel. Based on starter code provided by Udacity</p>
+    </footer>
 	`
 }
 
@@ -321,10 +315,9 @@ function raceProgress(positions) {
     let count = 1
 
     const results = positions.map(p => {
-        return ` <tr> <td> <h3>${count++} - ${p.driver_name}</h3> </td> </tr> `
-    })
-    return ` <main> <h3>Leaderboard</h3> <section id="leaderBoard"> ${results} </section> <section id="progress">
-        </section> </main> `
+        return `  <h3>${count++} - ${p.driver_name}</h3> `
+    }).join(" ")
+    return `  <h3>Leaderboard</h3> <section id="leaderBoard__positions"> ${results} </section>  `
 }
 
 
@@ -336,13 +329,14 @@ function renderAt(element, html) {
 // ^ Provided code ^ do not remove
 
 function renderProgresses(progresses) {
-
     const progressBars = progresses.map(progress => {
-        return `<span>${progress.racer}</span></p><div class='progressBar' style='width: ${progress.progress}%'></div>`
+        return `
+                <div class="progressBar" style="left: ${progress.progress - 2}%; background-image:  url('../assets/images/${progress.racer}.png')">           
+                </div>
+            `
     }).join(" ")
 
-    console.log(`<div id="progress"> ${progressBars} </div>`)
-    return ` <div id="progress"> ${progressBars} </div> `
+    return ` <div class="progressContainer">  ${progressBars} </div> `
 }
 
 

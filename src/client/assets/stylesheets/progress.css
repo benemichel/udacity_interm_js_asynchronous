@@ -5,52 +5,119 @@ header {
   background-image: url('https://via.placeholder.com/1150');
 }
 
-main#two-columns {
-    margin: 50px 0;
+
+#progressMain {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+}
+#instructions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
-main#two-columns section {
-    max-width: 50vw;
+#raceProgress {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+#leaderBoard {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+#leaderBoard__positions {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+}
+#progress_sections {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+#accelerate {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
 }
 
 section#accelerate button {
-    height: 300px;
-    width: 300px;
+    height: 100px;
+    width: 100px;
     margin: 30px auto;
     border-radius: 180%;
     background-color: green;
-    border-color: rgb(14, 166, 6);
     cursor: pointer;
 }
 
 #big-numbers {
     font-weight: bolder;
-    font-size: 70px;
+    font-size: 40px;
 }
 
-#progress {
-    width: 100%;
-    background-color: grey;
+
+.progressContainer {
+    width: 65vw;
+    height: 0.1px;
+    position: relative;
+    border: 3px solid lightgrey;
+    border-radius: 2px;
+    margin: 30px auto;
 }
 
 .progressBar {
-    width: 1%;
-    height: 30px;
+    width: 40px;
+    height: 40px;
+    border-radius: 100%;
     background-color: green;
+    position: absolute;
+    background-position: center;
+    top: -20px;
 }
 
-/* -------------------  TABLET  --------------------- */
-@media (min-width: 768px) {
+@media(min-width: 600px) {
+    #big-numbers {
+        font-size: 60px;
+    }
+
+    section#accelerate button {
+        height: 150px;
+        width: 150px;
+        font-size: 2rem;
+    }
 
 }
 
-/* -------------------  DESKTOP  -------------------- */
-
-@media (min-width: 1224px) {
+@media(min-width: 600px) {
+    #progress_sections {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
 }
+@media(min-width: 960px) {
+    #big-numbers {
+        font-size: 60px;
+    }
 
-/* -------------------  LARGE SCREENS  -------------- */
+    section#accelerate button {
+        height: 200px;
+        width: 200px;
+    }
 
-@media (min-width: 1824px) {
+    #progress_sections {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
 }
