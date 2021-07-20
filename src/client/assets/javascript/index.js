@@ -44,19 +44,18 @@ function setupClickHandlers() {
         const {target} = event
 
         // Race track form field
-        if (target.matches('.card.track')) {
+        if (target.matches('.card_track')) {
             handleSelectTrack(target)
         }
 
         // Podracer form field
-        if (target.matches('.card.podracer')) {
+        if (target.matches('.card_racer')) {
             handleSelectPodRacer(target)
         }
 
         // Submit create race form
         if (target.matches('#submit-create-race')) {
             event.preventDefault()
-
             // start race
             handleCreateRace()
         }
@@ -185,6 +184,7 @@ function handleSelectPodRacer(target) {
 
     // TODO - save the selected racer to the store
     updateStore({player_id: selectedRacerId})
+    toggleStartRaceButton()
 }
 
 function handleSelectTrack(target) {
@@ -201,6 +201,7 @@ function handleSelectTrack(target) {
     target.classList.add('selected')
     updateStore({track_id: selectedTrackId})
     console.log("handleSelectTrack")
+    toggleStartRaceButton()
 }
 
 function handleAccelerate() {
@@ -221,6 +222,17 @@ function getProgresses(positions) {
     return progresses
 }
 
+function toggleStartRaceButton() {
+    const submitButton = document.getElementById("submit-create-race")
+    const { player_id, track_id } = store
+    if (player_id && track_id) {
+        submitButton.disabled = false;
+    }
+    else {
+        submitButton.disabled = true;
+    }
+}
+
 // HTML VIEWS ------------------------------------------------
 // Provided code - do not remove
 
@@ -234,11 +246,14 @@ function renderRacerCars(racers) {
 
 function renderRacerCard(racer) {
     const {id, driver_name, top_speed, acceleration, handling} = racer
-    return ` <li class="card podracer" id="${id}">
+    return ` <li class="card_racer" id="${id}" 
+                 style="background-image: url('../assets/images/${driver_name}.png');background-size: cover">
+                 <div class="card__overlay">
 			<h3>${driver_name}</h3>
-			<p>${top_speed}</p>
-			<p>${acceleration}</p>
-			<p>${handling}</p>
+			<p>speed: ${top_speed}</p>
+			<p>acceleration: ${acceleration}</p>
+			<p>handling: ${handling}</p>
+			</div>
 		    </li> `
 }
 
@@ -252,9 +267,9 @@ function renderTrackCards(tracks) {
 
 function renderTrackCard(track, i) {
     const {id, name} = track
-    return ` <li id="${id}" class="card_track" style="background-image: url('../assets/images/${i + 1}.png');background-size: cover"
+    return ` <li id=${id} class="card_track" style="background-image: url('../assets/images/${i + 1}.png');background-size: cover"
                 >
-                <div class="card_track__overlay"> <h3>${name}</h3></div>
+                <div class="card__overlay"> <h3>${name}</h3></div>
   </li>`
 }
 

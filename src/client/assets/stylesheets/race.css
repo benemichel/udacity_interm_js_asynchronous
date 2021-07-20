@@ -1,0 +1,108 @@
+#create-race {
+    text-align: center;
+
+}
+#submit-create-race {
+    max-width: 50%;
+    max-height: 5%;
+}
+
+form {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+}
+form li * {
+    pointer-events: none;
+}
+form ul {
+    display: flex;
+    padding: 4px;
+}
+
+#racers {
+    display: flex;
+    flex-wrap: wrap;
+}
+form li {
+    border-radius: 2px;
+    -webkit-box-shadow: 1px 1px 1px 0px rgba(237,230,237,0.8);
+    -moz-box-shadow: 1px 1px 1px 0px rgba(237,230,237,0.8);
+    box-shadow: 1px 1px 1px 0px rgba(237,230,237,0.8);
+
+    border: 1px solid #fbf5f5;
+    cursor: pointer;
+    transition: all .6s;
+    margin-right: 5px;
+    position: relative;
+}
+
+form .card_track {
+    width: 50px;
+    height: 50px;
+}
+form .card_racer {
+    min-height: 60px;
+    min-width: 60px;
+}
+
+form li:hover {
+    box-shadow: none;
+    border: 4px solid rgb(109, 233, 23);
+}
+
+form li.selected {
+    border: 4px solid rgb(109, 233, 23);
+}
+
+form li h3 {
+}
+
+form li:hover  .card__overlay {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+.card__overlay {
+    position:absolute;
+    display: none;
+    background-color: #d3d3d384;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+}
+
+
+@media (min-width: 600px) {
+    form li {
+        max-width: 300px;
+        min-width: 110px;
+        min-height: 80px;
+        border: 4px solid #fbf5f5;
+    }
+}
+
+
+
+@media (min-width: 960px) {
+    form li {
+        max-width: 600px;
+        min-width: 200px;
+        min-height: 120px;
+        border: 4px solid #fbf5f5;
+    }
+}
+
+@media (min-width: 1264px) {
+    form li {
+        max-width: 600px;
+        min-width: 200px;
+        min-height: 120px;
+        border: 4px solid #fbf5f5;
+    }
+}
+
