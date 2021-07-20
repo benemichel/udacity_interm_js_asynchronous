@@ -1,6 +1,19 @@
 # Welcome to the One and only UdaciRacer Simulation Game
 
+##Setup
+Install dependencies via `npm install`.
+
+Start binary with server: see instructions below (provided by Udacity)
+
+Start server: Run `npm run watch` or `npm run start`
+
+## Notes
+Starter code was provided by Udacity. Project focus was on async JS.
+Other scopes like styling, accessibility, modularization, application of frameworks (BEM, SMACKS) etc. were only applied  in a fundamental way.
+
+
 ## Project Introduction
+Text below is provided by Udacity.
 
 Here is a partially built-out game that races cars—your job is to complete it! Throughout the game logic, you will find _"TODO"_ comments that must be completed in order for the game to work. You are going to use the asynchronous skills you gained in the course to fill in the blanks in this game.
 
