@@ -117,7 +117,6 @@ function runRace(raceID) {
             })
         }, 500)
     })
-    // remember to add error handling for the Promise
 }
 
 async function runCountdown() {
@@ -319,7 +318,6 @@ function renderProgresses(progresses) {
     }).join(" ")
     return ` <div class="progressContainer">  ${progressBars} </div> `
 }
-
 
 // API CALLS ------------------------------------------------
 const SERVER = 'http://localhost:8000'

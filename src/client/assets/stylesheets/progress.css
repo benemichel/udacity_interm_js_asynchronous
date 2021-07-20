@@ -1,10 +1,8 @@
 /* PROGRESS PAGE SPECIFIC STYLES */
 
-/* -------------------  MOBILE  --------------------- */
 header {
   background-image: url('https://via.placeholder.com/1150');
 }
-
 
 #progressMain {
     display: flex;
@@ -69,7 +67,6 @@ section#accelerate button {
     font-size: 40px;
 }
 
-
 .progressContainer {
     width: 60vw;
     height: 0.1px;
@@ -99,16 +96,8 @@ section#accelerate button {
         width: 130px;
         font-size: 2rem;
     }
-
 }
 
-@media(min-width: 600px) {
-    #raceUpdates {
-        /*display: flex;*/
-        /*flex-direction: row;*/
-        /*justify-content: space-between;*/
-    }
-}
 @media(min-width: 960px) {
     #big-numbers {
         font-size: 60px;
@@ -117,11 +106,5 @@ section#accelerate button {
     section#accelerate button {
         height: 160px;
         width: 160px;
-    }
-
-    #raceUpdates {
-        /*display: flex;*/
-        /*flex-direction: row;*/
-        /*justify-content: space-between;*/
     }
 }

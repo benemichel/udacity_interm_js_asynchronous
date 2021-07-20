@@ -1,7 +1,5 @@
 /* -------------------  GENERAL SITE STYLES --------------------- */
 
-/* -------------------  MOBILE  --------------------- */
-
 .sr-only {
     position: absolute;
     width: 1px;
@@ -12,7 +10,6 @@
     clip: rect(0, 0, 0, 0);
     border: 0;
 }
-
 
 h1, h2, h3, h4, h5, h6, p, ol, ul, li {
     margin: 0;
@@ -29,7 +26,6 @@ img {
     max-width: 100%;
     height: auto;
 }
-
 
 h1 {
     color: white;
@@ -86,7 +82,6 @@ p {
     background-color: var(--app-green-lighter);
 }
 
-
 section {
     margin: 0 auto;
     padding: 0;
@@ -95,7 +90,6 @@ section {
 footer p {
     color: floralwhite;
 }
-
 
 @media (min-width: 960px) {
     h1 {
@@ -112,7 +106,6 @@ footer p {
     p {
         font-size: 24px;
     }
-
     .button {
         font-size: 30px;
     }

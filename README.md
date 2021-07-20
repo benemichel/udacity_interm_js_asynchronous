@@ -3,12 +3,13 @@
 ##Setup
 Install dependencies via `npm install`.
 
-Start binary with server: see instructions below (provided by Udacity)
+Start binary with server: see instructions below (provided by Udacity). Instructions provided for Windows machines lead to issues. Try to set environmental variables separately in a terminal session. Then start .exe via `start ./bin/server.exe`.
 
 Start server: Run `npm run watch` or `npm run start`
 
 ## Notes
-Starter code was provided by Udacity. Project focus was on async JS.
+Starter code was provided by Udacity. Provided code included bugs in API (indexing of objects, could not be changed due to binary file API) and inconsistent usage of css selectors and attributes. Project focus was on async JS.
+
 Other scopes like styling, accessibility, modularization, application of frameworks (BEM, SMACKS) etc. were only applied  in a fundamental way.
 
 

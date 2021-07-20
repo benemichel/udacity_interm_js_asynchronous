@@ -92,7 +92,6 @@ form li:hover  .card__overlay {
     color: white;
 }
 
-
 @media (min-width: 600px) {
     #racers {
         display: flex;
@@ -122,8 +121,6 @@ form li:hover  .card__overlay {
         margin-right: 15px;
         margin-bottom: 15px;
     }
-
-
 }
 
 @media (min-width: 960px) {
@@ -131,7 +128,6 @@ form li:hover  .card__overlay {
         width: 30%;
         height: 15%;
     }
-
 }
 
 
