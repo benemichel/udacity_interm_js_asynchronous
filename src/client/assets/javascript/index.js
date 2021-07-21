@@ -1,7 +1,7 @@
 // PROVIDED CODE BELOW (LINES 1 - 80) DO NOT REMOVE
 
 // The store will hold all information needed globally
-let store = {
+const store = {
     track_id: undefined,
     player_id: undefined,
     race_id: undefined,
@@ -9,7 +9,7 @@ let store = {
 }
 
 const updateStore = (newState) => {
-    store = Object.assign(store, newState)
+    Object.assign(store, newState)
 }
 
 // We need our javascript to wait until the DOM is loaded
